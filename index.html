@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rayman Raboni — Photography</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:         #080808;
+  --paper:       #f2f0ec;
+  --white:       #ffffff;
+  --grey-10:     #1a1a1a;
+  --grey-20:     #2e2e2e;
+  --grey-40:     #555555;
+  --grey-55:     #777777;
+  --grey-70:     #aaaaaa;
+  --grey-85:     #cccccc;
+  --hero-size:    clamp(3.6rem, 11vw, 10rem);
+  --section-size: clamp(2rem, 5vw, 4rem);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden;cursor:default}
+
+/* Cursor removed — using default/pointer */
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 3rem;transition:background .4s,backdrop-filter .4s}
+nav.scrolled{background:rgba(8,8,8,0.93);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.1)}
+.rr-logo{display:flex;align-items:center;gap:0.7rem;text-decoration:none}
+.rr-logo-text{display:flex;flex-direction:column;line-height:1}
+.rr-logo-name{font-family:'DM Sans',sans-serif;font-size:1rem;letter-spacing:0.22em;color:var(--white)}
+.rr-logo-tagline{font-family:'DM Sans',sans-serif;font-style:normal;font-size:0.68rem;letter-spacing:0.18em;color:rgba(255,255,255,0.38);margin-top:2px}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-family:'DM Sans',sans-serif;font-size:0.88rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--white);transition:width .35s ease}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 3rem 5.5rem;overflow:hidden;background:var(--ink)}
+.hero-bg{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(255,255,255,0.012) 2px,rgba(255,255,255,0.012) 4px),linear-gradient(135deg,#050505 0%,#181818 50%,#080808 100%);animation:grain 9s steps(10) infinite}
+@keyframes grain{0%,100%{background-position:0 0,center}20%{background-position:-6% -8%,center}40%{background-position:4% 10%,center}60%{background-position:-9% 4%,center}80%{background-position:8% -5%,center}}
+.hero-slash{position:absolute;top:0;right:18%;width:2px;height:100%;background:linear-gradient(to bottom,transparent,rgba(255,255,255,0.3) 40%,transparent);transform:skewX(-6deg)}
+.hero-slash2{position:absolute;top:0;right:calc(18% + 18px);width:1px;height:100%;background:linear-gradient(to bottom,transparent 10%,rgba(255,255,255,0.1) 50%,transparent);transform:skewX(-6deg)}
+.hero-deco-r{position:absolute;right:-2rem;bottom:-4rem;font-family:'Playfair Display',serif;font-size:clamp(18rem,35vw,38rem);font-weight:900;font-style:italic;color:rgba(255,255,255,0.025);line-height:1;pointer-events:none;user-select:none}
+.hero-content{position:relative;z-index:2;max-width:800px}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:var(--hero-size);line-height:0.9;letter-spacing:0.04em;opacity:0;animation:fadeUp 1s .5s forwards}
+.hero-title .solid{color:var(--white);display:block}
+.hero-title .outline{display:block;-webkit-text-stroke:1.5px rgba(255,255,255,0.75);color:transparent}
+.hero-sub{margin-top:1.6rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(255,255,255,0.32);opacity:0;animation:fadeUp 1s .8s forwards;display:flex;align-items:center;gap:1rem}
+.hero-sub::before{content:'';display:inline-block;width:2.5rem;height:1px;background:rgba(255,255,255,0.45)}
+.hero-cta{display:inline-block;margin-top:2.5rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--white);text-decoration:none;border:1px solid rgba(255,255,255,0.38);padding:0.9rem 2.2rem;transition:color .35s;opacity:0;animation:fadeUp .8s 1.1s forwards;position:relative;overflow:hidden}
+.hero-cta::before{content:'';position:absolute;inset:0;background:var(--white);transform:translateX(-101%);transition:transform .35s ease}
+.hero-cta span{position:relative;z-index:1}
+.hero-cta:hover::before{transform:translateX(0)}
+.hero-cta:hover{color:var(--ink)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* SECTION COMMON */
+section{padding:7rem 3rem}
+.section-label{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--grey-70);margin-bottom:0.5rem}
+.section-label.on-light{color:var(--grey-40)}
+.section-title{font-family:'DM Sans',sans-serif;font-size:var(--section-size);font-weight:700;letter-spacing:0.06em;line-height:1}
+.reveal{opacity:1;transform:none}
+.reveal.visible{opacity:1;transform:none}
+
+/* PORTFOLIO */
+#portfolio{background:var(--ink)}
+.portfolio-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem}
+.filter-tabs{display:flex;gap:0.8rem;list-style:none;flex-wrap:wrap}
+.filter-tabs button{background:none;border:1px solid rgba(255,255,255,0.14);font-family:'DM Sans',sans-serif;font-size:0.8rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.38);cursor:pointer;padding:0.45rem 1.2rem;transition:all .3s}
+.filter-tabs button.active,.filter-tabs button:hover{color:var(--white);border-color:rgba(255,255,255,0.65);background:rgba(255,255,255,0.07)}
+
+/* Photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:290px;gap:1rem}
+.photo-card{position:relative;overflow:hidden;cursor:pointer;background:var(--grey-10)}
+.photo-card:nth-child(3n+1){grid-row:span 2}
+.photo-card .img{width:100%;height:100%;background-size:cover;background-position:center}
+/* hover image effects removed */
+/* corner triangle removed for clean look */
+.photo-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 55%);opacity:1;display:flex;flex-direction:column;justify-content:flex-end;padding:1.6rem}
+/* overlay always visible */
+.photo-title{font-family:'DM Sans',sans-serif;font-size:1.1rem;color:var(--white)}
+/* title animation removed */
+.photo-category{display:none}
+/* category animation removed */
+
+/* MOTION & FILM section */
+#motion-section{display:none;margin-top:3rem}
+#motion-section.active{display:block}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
+.video-card{position:relative;background:#111;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.08);overflow:hidden;cursor:pointer;transition:border-color .3s}
+.video-card:hover{border-color:rgba(255,255,255,0.3)}
+.video-card .play-icon{width:52px;height:52px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);display:flex;align-items:center;justify-content:center;transition:all .3s}
+.video-card:hover .play-icon{border-color:var(--white);transform:scale(1.1)}
+.play-icon svg{fill:white;width:20px;height:20px;margin-left:4px}
+.video-card .video-label{position:absolute;bottom:1rem;left:1rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.9rem;color:rgba(255,255,255,0.5)}
+.video-coming{text-align:center;margin-top:2rem;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,0.3);letter-spacing:0.15em}
+
+/* ABOUT */
+#about{background:var(--paper);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-image-wrap{position:relative}
+.about-photo{width:100%;aspect-ratio:3/4;background:var(--grey-10);background-size:cover;background-position:center top;position:relative;z-index:1}
+.about-image-wrap::before{display:none}
+/* border hover removed */
+.about-image-wrap::after{display:none}
+.about-text{font-family:'DM Sans',sans-serif;font-size:1.2rem;line-height:1.9;color:rgba(8,8,8,0.78);font-weight:500;margin-top:2.2rem}
+.about-text p+p{margin-top:1.3em}
+
+
+/* CONTACT */
+#contact{background:#e8e6e1;color:var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+#contact .section-title{color:var(--ink);font-size:clamp(2.6rem,6vw,5rem);font-weight:900}
+#contact .section-label{font-family:'DM Sans',sans-serif;color:var(--grey-40);font-size:0.95rem;font-weight:500}
+.contact-title-wrap{border-left:4px solid rgba(8,8,8,0.5);padding-left:1.5rem;margin-top:1.5rem}
+.contact-intro{font-family:'DM Sans',sans-serif;margin-top:1.4rem;font-size:1.18rem;line-height:1.85;color:rgba(8,8,8,0.58);font-weight:500}
+.contact-details{margin-top:2.4rem;display:flex;flex-direction:column;gap:1rem}
+.contact-item{font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:1rem;font-size:1.05rem;color:rgba(8,8,8,0.68);font-weight:500}
+.contact-item strong{font-family:'Bebas Neue',sans-serif;font-size:0.85rem;letter-spacing:0.25em;color:var(--grey-20);min-width:62px}
+.contact-form{display:flex;flex-direction:column;gap:1.1rem}
+.form-group{display:flex;flex-direction:column;gap:0.35rem}
+.form-group label{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:rgba(8,8,8,0.48)}
+.form-group input,.form-group textarea,.form-group select{background:rgba(8,8,8,0.04);border:1px solid rgba(8,8,8,0.18);color:var(--ink);padding:0.95rem 1.1rem;font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:500;outline:none;transition:border-color .3s;resize:none;appearance:none;-webkit-appearance:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:rgba(8,8,8,0.5)}
+.form-group select option{background:var(--paper)}
+.form-group textarea{height:130px}
+.submit-btn{margin-top:0.4rem;background:var(--ink);color:var(--white);border:none;padding:1.1rem 2.6rem;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;cursor:pointer;transition:background .35s,transform .2s;align-self:flex-start}
+.submit-btn:hover{background:var(--grey-20);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:#020202;padding:2.8rem 3rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.12);flex-wrap:wrap;gap:1.4rem}
+.footer-logo-wrap{display:flex;align-items:center;gap:0.7rem}
+.footer-logo-wrap svg{width:40px;height:40px}
+.footer-name{font-family:'DM Sans',sans-serif;font-size:1.2rem;letter-spacing:0.22em;color:#ffffff;font-weight:700}
+.footer-copy{font-family:'DM Sans',sans-serif;font-size:0.88rem;letter-spacing:0.15em;color:#ffffff;font-weight:500}
+.social-links{display:flex;gap:1.5rem}
+.social-links a{font-family:'DM Sans',sans-serif;color:#ffffff;text-decoration:none;font-size:0.88rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;transition:opacity .3s}
+.social-links a:hover{opacity:0.7}
+
+/* GALLERY LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(2,2,2,0.98);z-index:200;display:none;flex-direction:column}
+.lightbox.open{display:flex}
+.lb-header{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 2rem;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0}
+.lb-title{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:rgba(255,255,255,0.7)}
+.lb-close{font-size:1.6rem;color:var(--white);cursor:pointer;background:none;border:none;transition:color .3s}
+.lb-close:hover{color:var(--grey-70)}
+.lb-main{display:flex;flex:1;overflow:hidden;gap:0}
+.lb-big{flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative}
+.lb-big img{max-width:100%;max-height:100%;object-fit:contain;filter:none}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.08);border:none;color:white;font-size:1.5rem;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .3s}
+.lb-nav:hover{background:rgba(255,255,255,0.2)}
+.lb-prev{left:1rem}
+.lb-next{right:1rem}
+.lb-thumbs{width:160px;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column;gap:4px;padding:1rem;background:rgba(0,0,0,0.4);border-left:1px solid rgba(255,255,255,0.06)}
+.lb-thumbs img{width:100%;aspect-ratio:1;object-fit:cover;cursor:pointer;opacity:0.5;transition:opacity .3s;border:1px solid transparent}
+.lb-thumbs img.active{opacity:1;border-color:rgba(255,255,255,0.6)}
+.lb-thumbs img:hover{opacity:0.85}
+.lb-counter{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);font-size:0.72rem;letter-spacing:0.25em;color:rgba(255,255,255,0.4)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:5rem 1.5rem}
+  .hero{padding:0 1.5rem 4rem}
+  #about,#contact{grid-template-columns:1fr;gap:3rem}
+  .photo-grid{grid-template-columns:repeat(2,1fr)}
+  .photo-card:nth-child(3n+1){grid-row:span 1}
+  .portfolio-header{flex-direction:column;align-items:flex-start}
+  footer{flex-direction:column;text-align:center;align-items:center}
+  .lb-thumbs{display:none}
+}
+@media(max-width:540px){.photo-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#home" class="rr-logo">
+    <div class="rr-logo-text">
+      <span class="rr-logo-name">RAYMAN RABONI</span>
+      <span class="rr-logo-tagline">Photography &amp; Videography</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+   
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-slash"></div>
+  <div class="hero-slash2"></div>
+  <div class="hero-deco-r">R</div>
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="solid">RAYMAN</span>
+      <span class="outline">RABONI</span>
+    </h1>
+    <p class="hero-sub">Photography &amp; Videography</p>
+    <a href="#portfolio" class="hero-cta"><span>View Portfolio</span></a>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-header">
+    <div>
+      <h2 class="section-title reveal" style="color:#fff">Portfolio</h2>
+    </div>
+    <ul class="filter-tabs reveal">
+      <li><button class="active" data-filter="all">Fashion</button></li>
+      <li><button data-filter="streetlife">Street Lifestyle</button></li>
+      <li><button data-filter="documentary">Documentary</button></li>
+      <li><button data-filter="experimental">Experimental</button></li>
+      <li><button data-filter="motion">Motion &amp; Film</button></li>
+    </ul>
+  </div>
+
+  <div class="photo-grid" id="photoGrid">
+
+    <div class="photo-card reveal" data-category="documentary"
+         data-title="Maternal Grace"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/296e1b242935453.697792f940943.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/b47270242935453.697792f93fcac.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/cdca7c242935453.697792f940e6f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/9bf967242935453.697792f940473.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/3d74c7242935453.697792f93f4bf.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/296e1b242935453.697792f940943.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Maternal Grace</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Icy Hues"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9bbd3a239651629.692e22067bbc6.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2e1042239651629.692e22067d892.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0201d8239651629.692e22067fe5b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0ce5b5239651629.692e22067eb2c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2d7884239651629.692e22067c3d4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/de3c93239651629.692e22067e0e4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d577a7239651629.692e22067ce05.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0a5ca3239651629.692e22067f472.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f7766e239651629.692e22067b190.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2f33d8239651629.692e22067a790.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9bbd3a239651629.692e22067bbc6.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Icy Hues</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Self note"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/1a4e80242611121.6970996abcd04.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/0bc291242611121.6970996abc56b.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/max_632_webp/1a4e80242611121.6970996abcd04.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Self note</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="documentary"
+         data-title="Maternal Grace Pt.2"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/89757c242935271.6977924a0d493.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/1a8d86242935271.6977924a0e22d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/e5402d242935271.6977924a0f26c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fdc6e4242935271.6977924a102a3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/aae345242935271.6977924a0f7c8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/hd_webp/ac27b3242935271.6977924a0fe15.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/e5db15242935271.6977924a0dbaa.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6d66d2242935271.6977924a0eac9.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/89757c242935271.6977924a0d493.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Maternal Grace Pt.2</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Solitude and Skin"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6acffa238312423.69126403bc8ad.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5c4455238312423.69126403bf232.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ec8eec238312423.69126403c2b3d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/20b804238312423.69126403c0b4c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/cd8240238312423.69126403be912.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3d2cd1238312423.69126403bd92e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fe1c2f238312423.69126403c376b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/35c22e238312423.69126403c1343.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3c8350238312423.69126403bfba1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/88f2f1238312423.69126403c1c8e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/882f2c238312423.69126403c04e8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7633a8238312423.69126403c3139.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a5c80c238312423.69126403bd22c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a690d8238312423.69126403c2260.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/707998238312423.69126403bb337.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4bf328238312423.69126403bbe40.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c5bd4d238312423.69126403be24c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c7c43a238312423.69126403baa13.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6acffa238312423.69126403bc8ad.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Solitude and Skin</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Westminster | 4:29PM"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5ce578241740613.695e9e386b547.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0f2273241740613.695e9e387043f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/041797241740613.695e9e386ab80.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/66f7eb241740613.695e9e386d548.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4f7929241740613.695e9e386eed0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/bc535d241740613.695e9e386e2c4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/3bc294241740613.695e9e386bf5e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/818708241740613.695e9e386f996.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/04d793241740613.695e9e386cb23.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/eba3b6241740613.695e9e3870ee8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3a2046241740613.695e9e386a14c.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5ce578241740613.695e9e386b547.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Westminster | 4:29PM</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Cold Vein"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0d6800238190795.690fc12d08cac.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c3fa0b238190795.690fc12d0742a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a47655238190795.690fc12d0642f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b02551238190795.690fc12d05e4a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/57e16a238190795.690fc12d08444.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2552e7238190795.690fc12d06d46.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4d6113238190795.690fc12d07bbc.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0d6800238190795.690fc12d08cac.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Cold Vein</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Late vogue at the booth"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0fbe26238191495.690fc7ea4ee62.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/eeee3a238191495.690fc7ea4e858.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/77a06d238191495.690fc7ea4cbc0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/dcad15238191495.690fc7ea5066e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f27640238191495.690fc7ea51650.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8f78d3238191495.690fc7ea4db14.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/243175238191495.690fc7ea4c324.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e1b65e238191495.690fc7ea51bbb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0eb04d238191495.690fc7ea4b4f3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/72dd85238191495.690fc7ea4fe8c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/563c00238191495.690fc7ea4bae4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f51c6d238191495.690fc7ea4a741.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2db19f238191495.690fc7ea4f754.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3bbaab238191495.690fc7ea4a178.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ad76b3238191495.690fc7ea48fd7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/05ddf9238191495.690fc7ea50fac.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d35be8238191495.690fc7ea4e066.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/90e544238191495.690fc7ea4ad0d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2dcc7a238191495.690fc7ea4d3b0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e50879238191495.690fc7ea498a2.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0fbe26238191495.690fc7ea4ee62.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Late vogue at the booth</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Motion & Film section -->
+  <div id="motion-section">
+    <p style="color:rgba(255,255,255,0.4);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1.5rem">Motion &amp; Film</p>
+    <div class="video-grid">
+      <div class="video-card" style="position:relative;overflow:hidden">
+        <iframe src="https://drive.google.com/file/d/1gS6zYlWBT42FkRgNxOPlOy4J7k6VwKCb/preview" 
+                width="100%" height="100%" style="border:none;position:absolute;inset:0" 
+                allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        <span class="video-label">Film I</span>
+      </div>
+      <div class="video-card" style="position:relative;overflow:hidden">
+        <iframe src="https://drive.google.com/file/d/1sJVUvBbcdyXC7WhuJFbYtWs_JEP267Pi/preview" 
+                width="100%" height="100%" style="border:none;position:absolute;inset:0" 
+                allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        <span class="video-label">Film II</span>
+      </div>
+      <div class="video-card" style="position:relative;overflow:hidden">
+        <iframe src="https://drive.google.com/file/d/1Op2CikhgcVg-ar1TnZ1NaCuC2yAqnzuO/preview" 
+                width="100%" height="100%" style="border:none;position:absolute;inset:0" 
+                allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        <span class="video-label">Film III</span>
+      </div>
+      <div class="video-card" style="position:relative;overflow:hidden">
+        <iframe src="https://drive.google.com/file/d/1Z8Es9tWYn4AYCDTrfyyyLV_neJyqIKtJ/preview" 
+                width="100%" height="100%" style="border:none;position:absolute;inset:0" 
+                allow="autoplay" allowfullscreen loading="lazy"></iframe>
+        <span class="video-label">Calmst8</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-image-wrap reveal">
+    <div class="about-photo" style="background-image:url('https://storage.googleapis.com/runable-templates/cli-uploads%2FzFSRXSxagYPGELdhjfW81wJsjJz2NdUI%2FljBb-MNOJ3YCxROCGPYfi%2FWhatsApp_Image_2026-04-17_at_10.11.30_PM_(1)_BnbP8E.jpeg')"></div>
+  </div>
+  <div>
+    <h2 class="section-title reveal">Rayman<br>Raboni</h2>
+    <div class="about-text reveal">
+      <p>I'm Rayman Raboni, a passionate photographer with a keen, powerful eye for stories. Capturing moments that tell specializing in a range of styles, from fashion to travel and cinematic imagery, my work aims to highlight the beauty and emotion in every scene.</p>
+      <p>With a background in film technology and cinematography, I blend technical expertise with creative vision to produce compelling visuals. Each project I take on is a unique exploration of light, texture, and perspective, capturing the essence of my subjects in both intimate and dynamic ways.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- GALLERY -->
+<section id="gallery" style="background:var(--ink);padding-top:3rem">
+  <div class="portfolio-header">
+    <div>
+      <p class="section-label reveal">More Work</p>
+      <h2 class="section-title reveal" style="color:#fff">Gallery</h2>
+    </div>
+  </div>
+
+  <div class="photo-grid" id="galleryGrid">
+
+    <div class="photo-card reveal" data-category="documentary"
+         data-title="Maternal Grace Pt.3"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/90905f242935117.697791b70270b.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/c8d952242935117.697791b700ff8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d98b67242935117.697791b7019fe.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a2546c242935117.697791b7030d0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/827eaa242935117.697791b70396b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/a276e3242935117.697791b7001f6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/max_1200_webp/b1f0d5242935117.697791b6f378a.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/90905f242935117.697791b70270b.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Maternal Grace Pt.3</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Ethereal Lumen"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/38baad240780643.6945b1b93fee2.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b86a57240780643.6945b1b942695.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/187fc2240780643.6945b1b941471.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2ba65e240780643.6945b1b943388.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e4a0da240780643.6945b289252c5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/973c00240780643.6945b1b942c82.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/295fc5240780643.6945b1b94052a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/73514d240780643.6945b1b943af7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5e10d2240780643.6945b1b941a55.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3dbe36240780643.6945b1b941f96.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/032a1a240780643.6945b1b940cdf.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/38baad240780643.6945b1b93fee2.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Ethereal Lumen</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Subway Frost"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/43f007239651511.692e2149ecbcc.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b7282b239651511.692e2149edf89.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c3f787239651511.692e2149f0aab.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/833eca239651511.692e2149ed740.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/70d848239651511.692e2149ef492.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/07ac85239651511.692e2149eff79.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/18ba49239651511.692e2149f15c1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/34dbaa239651511.692e2149f1e0d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4eb7ca239651511.692e2149eea06.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/43f007239651511.692e2149ecbcc.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Subway Frost</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Chill Hues"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/234f57239532069.692b520cc5911.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/489802239532069.692b520cc5422.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e165ff239532069.692b520cc4555.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2bf4d3239532069.692b520cc3ff9.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c374b1239532069.692b520cc752f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e4807a239532069.692b520cc654a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/626add239532069.692b520cc6a01.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/66d75b239532069.692b520cc3a71.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a0e1a8239532069.692b520cc7aa2.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c6e3eb239532069.692b520cc4c9a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3d4e88239532069.692b520cc5dc0.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/234f57239532069.692b520cc5911.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Chill Hues</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Halloween Faces"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f44523238191145.690fc4303f53b.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8a6513238191145.690fc4303fc79.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/93eab1238191145.690fc4303e5d1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2ef63b238191145.690fc4303cee8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/bb328c238191145.690fc43040395.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4f1836238191145.690fc4303c1b5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/93ac06238191145.690fc4303e0fb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e231d4238191145.690fc4303ac60.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6eb353238191145.690fc4303f002.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/929c84238191145.690fc4303b21d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6e0687238191145.690fc4303a6a2.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d0e701238191145.690fc4303dbe3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b30365238191145.690fc4303eae1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f38c6e238191145.690fc4303b708.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/bd4c87238191145.690fc4303d6df.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e6b491238191145.690fc4303bc4e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5f11b0238191145.690fc4303c8e8.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f44523238191145.690fc4303f53b.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Halloween Faces</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Room Vogue"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c237f3238190991.690fc2ccecf9d.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f617af238190991.690fc2ccebfa3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4b925a238190991.690fc2cce98cd.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6ab578238190991.690fc2cceb7b7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/683667238190991.690fc2ccea119.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/38aa13238190991.690fc2ccee2db.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3ef52c238190991.690fc2ccea9e8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7ccdad238190991.690fc2cceb201.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2469d8238190991.690fc2ccedaeb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9a8e7e238190991.690fc2cced53f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0775f2238190991.690fc2ccee8be.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/208027238190991.690fc2cceef6d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d14efa238190991.690fc2ccec7b7.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c237f3238190991.690fc2ccecf9d.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Room Vogue</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Hot Pursuit"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/61dd22238190867.690fc1d21b75c.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/098e59238190867.690fc1d21bcaf.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2aa2c1238190867.690fc1d21c222.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/625ef4238190867.690fc1d21b198.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/bac016238190867.690fc1d21d872.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/13a9db238190867.690fc1d21d0f6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c8d382238190867.690fc1d21dd58.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/da51c1238190867.690fc1d21ca09.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/61dd22238190867.690fc1d21b75c.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Hot Pursuit</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Hushed Aura"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c08d78238190717.690fc080d2b37.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7e0064238190717.690fc080d45d8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7052e7238190717.690fc080d38e0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e45827238190717.690fc080d1681.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/09826e238190717.690fc080d3e6c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b97b34238190717.690fc080d30db.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8f7b80238190717.690fc080d23a9.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4eb474238190717.690fc080d1052.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ba5624238190717.690fc080d1e21.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/29aa3b238190717.690fc080d4b6a.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c08d78238190717.690fc080d2b37.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Hushed Aura</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Raw Elegance"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/808f39238190551.690fbf414d4cd.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a3ccd2238190551.690fbf414bb00.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ed96ac238190551.690fbf414daa6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/946b69238190551.690fbf415069b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/875f95238190551.690fbf414e184.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e8cd9b238190551.690fbf414e99f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0f74a6238190551.690fbf414efe4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3d3507238190551.690fbf4150e47.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/741534238190551.690fbf4152882.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3919cb238190551.690fbf41515df.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/15981e238190551.690fbf4151b52.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e28d30238190551.690fbf414c898.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/72fb29238190551.690fbf414cf9b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b2835f238190551.690fbf414c124.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9a362e238190551.690fbf414f66c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/cf5511238190551.690fbf4152dc8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5211ac238190551.690fbf414fef2.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/cb8867238190551.690fbf41520b9.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/808f39238190551.690fbf414d4cd.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Raw Elegance</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Shade play"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/db0966238190485.690fbe9837369.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7f1632238190485.690fbe9839a16.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4e8998238190485.690fbe983cc03.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5da163238190485.690fbe9833ff5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c83ce9238190485.690fbe983ac35.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c1cabd238190485.690fbe983a47b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9d54a6238190485.690fbe983c103.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e660b5238190485.690fbe98387a9.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ad4d0c238190485.690fbe9839f24.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a556a4238190485.690fbe98366a7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e700e1238190485.690fbe9836b72.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fdadac238190485.690fbe983d300.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/85c2b2238190485.690fbe983b9e6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9b5c4e238190485.690fbe98391fa.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e3769a238190485.690fbe9834a55.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8f1677238190485.690fbe983c694.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/22dc21238190485.690fbe9838ca0.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f78b52238190485.690fbe9835f1f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/71d58d238190485.690fbe9834570.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/1baf45238190485.690fbe983598f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8c5d85238190485.690fbe9837b30.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0f03e1238190485.690fbe9835283.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/90acb4238190485.690fbe983b1db.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c32632238190485.690fbe983829f.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/db0966238190485.690fbe9837369.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Shade play</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Fashion mode"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/46792f238190345.690fbd6e92a15.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/00c3ae238190345.690fbd6e90723.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8c0365238190345.690fbd6e8e5bb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8a73f0238190345.690fbd6e8ee5c.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e6b21a238190345.690fbd6e901b5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8d9af3238190345.690fbd6e8d8d2.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d65817238190345.690fbd6e89112.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a6e8ed238190345.690fbd6e912ae.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a0bda1238190345.690fbd6e8d117.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/256399238190345.690fbd6e8ddfa.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0bd688238190345.690fbd6e8ae94.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ff0d38238190345.690fbd6e8a0f4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3b329d238190345.690fbd6e90cdc.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f2800d238190345.690fbd6e8b434.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3f9679238190345.690fbd6e8fc4d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/5730bc238190345.690fbd6e91d36.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fc4f12238190345.690fbd6e8f66f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a490e7238190345.690fbd6e89961.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4b73a4238190345.690fbd6e8c1a3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f62576238190345.690fbd6e97305.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4d2c3a238190345.690fbd6e8a909.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c277b9238190345.690fbd6e8c94f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/74528a238190345.690fbd6e8b9c7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/a8dc36238190345.690fbd6e95571.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c243e2238190345.690fbd6e965a9.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/96528f238190345.690fbd6e9788a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/32dc39238190345.690fbd6e96b39.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/319950238190345.690fbd6e95fc1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2e0178238190345.690fbd6e93ac5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/22a2ba238190345.690fbd6e9339e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/63e311238190345.690fbd6e94e37.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fdd3c0238190345.690fbd6e94484.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/46792f238190345.690fbd6e92a15.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Fashion mode</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Free roll!"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/852fed238190027.690fbadfade88.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/baf290238190027.690fbadfb1d35.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/763bfe238190027.690fbadfb11d4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/13c7c7238190027.690fbadfb2af1.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f42e2f238190027.690fbadfb25a5.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/092dfe238190027.690fbadfb047e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/8274a8238190027.690fbadfad02a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/951a74238190027.690fbadfb0c29.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/dedf8a238190027.690fbadfaf6f6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/c98516238190027.690fbadfab89f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/6837b4238190027.690fbadfafc79.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3dd5e9238190027.690fbadfad88a.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/1db0b0238190027.690fbadfaeedc.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9a6aef238190027.690fbadfb1779.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7a87e2238190027.690fbadfac4e7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fe9173238190027.690fbadfaaefe.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/28528e238190027.690fbadfae698.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/3326f0238190027.690fbadfacac7.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/43a71e238190027.690fbadfabf79.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/852fed238190027.690fbadfade88.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Free roll!</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Visual poetry in fashion"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b5ff93238189897.690fb9c478859.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/472e2b238189897.690fb9c46fbce.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/220a93238189897.690fb9c475a17.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/41380c238189897.690fb9c478073.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/66814a238189897.690fb9c4746ee.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/fcf2cb238189897.690fb9c472a3b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/80e0a4238189897.690fb9c473f24.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d095da238189897.690fb9c47901f.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d513a2238189897.690fb9c47701b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/eb4eac238189897.690fb9c476abb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/252ccc238189897.690fb9c47035b.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/1a7433238189897.690fb9c477578.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/1a9790238189897.690fb9c4734d8.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/431961238189897.690fb9c470cfc.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/ad865c238189897.690fb9c474f65.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2d3e2c238189897.690fb9c471fbb.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7f95b8238189897.690fb9c476494.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/179dd0238189897.690fb9c477ac6.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/d782e8238189897.690fb9c47174d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/367d1f238189897.690fb9c479545.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/b5ff93238189897.690fb9c478859.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Visual poetry in fashion</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Flashing lights"
+         data-src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f446cd238189605.690fb7639f6da.jpg"
+         data-gallery="[&quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/27b4ad238189605.690fb7639b8bf.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/9fe42b238189605.690fb7639c148.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/350763238189605.690fb7639da51.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/063b1f238189605.690fb7639b062.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/4b650b238189605.690fb7639cebd.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/36c407238189605.690fb7639c94e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7a788f238189605.690fb7639d40d.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f5f65e238189605.690fb7639efa3.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e96bfc238189605.690fb7639e7d4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/7467a4238189605.690fb7639e22e.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/da96cf238189605.690fb7639fde4.jpg&quot;, &quot;https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/e99040238189605.690fb763a036a.jpg&quot;]">
+      <div class="img" style="background-image:url('https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/f446cd238189605.690fb7639f6da.jpg')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Flashing lights</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Raeymngrewal"
+         data-src="https://drive.google.com/thumbnail?id=14ppJKJZZqiXExSPNeh6XIMXTBDL0vdhb&sz=w1600"
+         data-gallery="[&quot;https://drive.google.com/thumbnail?id=1oA6UWpyNZLeKAE5RCjmIMMtmF77nkgtB&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1tvui94EMQGjjblhVmJLfoN47zTRP5qux&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1PEZwswfHTSse79UpOil7vALynfFaNQ_Y&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=14XHpZGOOXDnFHJfh5rDjg4-W43AUxk9e&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1SXJaqUkz0nOGLuMtzPQF2MDsrdCKehpe&amp;sz=w1600&quot;]">
+      <div class="img" style="background-image:url('https://drive.google.com/thumbnail?id=14ppJKJZZqiXExSPNeh6XIMXTBDL0vdhb&sz=w1600')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Raeymngrewal</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="streetlife"
+         data-title="Shishi"
+         data-src="https://drive.google.com/thumbnail?id=1dW1GwzScl4i_Kv7dFPuHLUykM56yRVBA&sz=w1600"
+         data-gallery="[&quot;https://drive.google.com/thumbnail?id=1LVjZCFUO-58k04YenLKvNMpEETfWaGes&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1AWsTVw8WFej0IHE8_7-4fe4_3vcjDmkI&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1wioLbFj5IQvMY0JMJpNQGErIfag34Ggu&amp;sz=w1600&quot;]">
+      <div class="img" style="background-image:url('https://drive.google.com/thumbnail?id=1dW1GwzScl4i_Kv7dFPuHLUykM56yRVBA&sz=w1600')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Shishi</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Tiarose"
+         data-src="https://drive.google.com/thumbnail?id=1dTxCEVvqawmxavDp-VREdveDkq8DLOgV&sz=w1600"
+         data-gallery="[&quot;https://drive.google.com/thumbnail?id=12-1DYQJFosfia4ecVvpG0L7QH-0ytW0s&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1O4iUq9Y0mK-0icjUwB08-wYM3MTIGVQM&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=15wLzZmO-eONF2LOtdMLKu7AVswrQF3-8&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=10z3151tWd6xjVVtJTEcAl6R0AumjOlZ_&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=10N_v1-uHUHu7AlXSgHv0P4mxQerwNooV&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1AUPANYTX0UTu6x1nU29J4CheMP6TI-1D&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=11qhgHIn43PrRjwOzla5k29Y0mW1-zGkc&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1Qrh-TZY7MNn8PUVLFqxyvFHkGBhkuBKe&amp;sz=w1600&quot;]">
+      <div class="img" style="background-image:url('https://drive.google.com/thumbnail?id=1dTxCEVvqawmxavDp-VREdveDkq8DLOgV&sz=w1600')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Tiarose</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="experimental"
+         data-title="Tiarosee"
+         data-src="https://drive.google.com/thumbnail?id=178J4SA-rXKMz9KkedDJSg1fAIuGcbvDZ&sz=w1600"
+         data-gallery="[&quot;https://drive.google.com/thumbnail?id=1AMAcD7y1r5cK9opy1EcxigVTw7_QPjbp&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1BGb5HyD0LktmrfHSZFFpmP2acRDFQSm0&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1z8_UiBxoaNufkcD5wMLxPtvF79Rg3k8r&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1ZZjAaEI3l9mUG6KBR8TGVZ2chcHJtaLE&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1HjVL40_4ig7LqdTGnjjdbAfIsnjxNZPQ&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=16mmdjK-gszg3Dx9aDIqUwNh7qZc1OTkF&amp;sz=w1600&quot;]">
+      <div class="img" style="background-image:url('https://drive.google.com/thumbnail?id=178J4SA-rXKMz9KkedDJSg1fAIuGcbvDZ&sz=w1600')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Tiarosee</span>
+      </div>
+    </div>
+
+    <div class="photo-card reveal" data-category="all"
+         data-title="Street Brand"
+         data-src="https://drive.google.com/thumbnail?id=1pEkO_GUa1rmP5lMpYUXjueaTZxv8syIr&sz=w1600"
+         data-gallery="[&quot;https://drive.google.com/thumbnail?id=1ayGW4-jwLjJJoY96uR7i1Sg5e7bKFOal&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1SbS51sqEvRJzto4-xFMyiv46t4TQajpy&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1sSK1zNp4FQG52Rowj-QAQw170I2S1h8p&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=13uTdtXrB1XUjxgE9plhUxq19pw6KyN4n&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1gv4Sa4EapIFDNH5r1CpyHBFeqSOe7uRX&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1tVFhnao6MRorZ7UmsgbrCACN85UDURiv&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1miwTNDMf1TvSjN9CmnQdoI7MaNCVnNwu&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=13AKNQjoMm-GqHjwhOAQCFqZpgcLrp9jq&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1raqhOkNJhp2YGtCDEnizZFsCtzc0B55l&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1wSc9HT3WWAHIs9dT1hQT21oM5ORPnFhv&amp;sz=w1600&quot;, &quot;https://drive.google.com/thumbnail?id=1qIK08coHZDclFIp0NfbebCboNkD4pQ4S&amp;sz=w1600&quot;]">
+      <div class="img" style="background-image:url('https://drive.google.com/thumbnail?id=1pEkO_GUa1rmP5lMpYUXjueaTZxv8syIr&sz=w1600')"></div>
+      <div class="photo-overlay">
+        <span class="photo-title">Street Brand</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div>
+    <div class="contact-title-wrap reveal">
+      <h2 class="section-title">Get In<br>Touch</h2>
+    </div>
+    <p class="contact-intro reveal">Available for commissions, collaborations, and creative conversations.<br>Response within 48 hours.</p>
+    <div class="contact-details reveal">
+      <div class="contact-item"><strong>Email</strong> rayman.raboni09@gmail.com</div>
+      <div class="contact-item"><strong>Phone</strong> +44 7352680431</div>
+      <div class="contact-item"><strong>Based</strong> United Kingdom</div>
+    </div>
+  </div>
+  <form class="contact-form reveal" action="https://formsubmit.co/rayman.raboni09@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="New enquiry from your portfolio">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_template" value="table">
+    <div class="form-group"><label>Full Name</label><input type="text" name="name" placeholder="Your name" required></div>
+    <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="your@email.com" required></div>
+    <div class="form-group">
+      <label>Enquiry Type</label>
+      <select name="enquiry_type">
+        <option value="">Select a service&#8230;</option>
+        <option>Fashion Photography</option>
+        <option>Street Lifestyle</option>
+        <option>Documentary</option>
+        <option>Experimental</option>
+        <option>Motion &amp; Film</option>
+        <option>Fine Art Print</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell me about your project&#8230;" required></textarea></div>
+    <button type="submit" class="submit-btn">Send Message</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo-wrap">
+    <span class="footer-name">RAYMAN RABONI</span>
+  </div>
+  <span class="footer-copy">&copy; 2025 Rayman Raboni &mdash; All rights reserved</span>
+  <div class="social-links">
+    <a href="https://www.instagram.com/rayman.raboni/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.behance.net/raymanraboni/projects" target="_blank" rel="noopener">Behance</a>
+  </div>
+</footer>
+
+<!-- GALLERY LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-header">
+    <span class="lb-title" id="lbTitle"></span>
+    <button class="lb-close" id="lbClose">&#10005;</button>
+  </div>
+  <div class="lb-main">
+    <div class="lb-big" id="lbBig">
+      <button class="lb-nav lb-prev" id="lbPrev">&#8592;</button>
+      <img id="lbMainImg" src="" alt="">
+      <button class="lb-nav lb-next" id="lbNext">&#8594;</button>
+      <span class="lb-counter" id="lbCounter"></span>
+    </div>
+    <div class="lb-thumbs" id="lbThumbs"></div>
+  </div>
+</div>
+
+<script>
+/* Cursor: using native default/pointer */
+
+/* Nav scroll */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
+
+/* Scroll reveal */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* Filter tabs */
+const photoGrid=document.getElementById('photoGrid');
+const motionSection=document.getElementById('motion-section');
+
+document.querySelectorAll('.filter-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+
+    if(f==='motion'){
+      photoGrid.style.display='none';
+      motionSection.classList.add('active');
+    } else {
+      photoGrid.style.display='grid';
+      motionSection.classList.remove('active');
+      document.querySelectorAll('.photo-card').forEach(c=>{
+        const show=f==='all'||c.dataset.category===f;
+        c.style.opacity=show?'1':'0.12';
+        c.style.transform=show?'scale(1)':'scale(0.95)';
+        c.style.transition='opacity .4s,transform .4s';
+        c.style.pointerEvents=show?'auto':'none';
+      });
+    }
+  });
+});
+
+/* Gallery Lightbox */
+const lb=document.getElementById('lightbox');
+const lbMainImg=document.getElementById('lbMainImg');
+const lbTitle=document.getElementById('lbTitle');
+const lbThumbs=document.getElementById('lbThumbs');
+const lbCounter=document.getElementById('lbCounter');
+let galleryImages=[],galleryIndex=0;
+
+function openGallery(card){
+  const mainSrc=card.dataset.src||'';
+  const subImgs=JSON.parse(card.dataset.gallery||'[]');
+  galleryImages=[mainSrc,...subImgs];
+  galleryIndex=0;
+  lbTitle.textContent=card.dataset.title||'';
+  buildThumbs();
+  showImage(0);
+  lb.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function buildThumbs(){
+  lbThumbs.innerHTML='';
+  galleryImages.forEach((src,i)=>{
+    const img=document.createElement('img');
+    img.src=src;
+    img.alt='';
+    if(i===0)img.classList.add('active');
+    img.addEventListener('click',()=>showImage(i));
+    lbThumbs.appendChild(img);
+  });
+}
+
+function showImage(i){
+  galleryIndex=i;
+  lbMainImg.src=galleryImages[i];
+  lbCounter.textContent=(i+1)+' / '+galleryImages.length;
+  document.querySelectorAll('#lbThumbs img').forEach((img,idx)=>img.classList.toggle('active',idx===i));
+  const thumb=lbThumbs.children[i];
+  if(thumb)thumb.scrollIntoView({block:'nearest'});
+}
+
+document.querySelectorAll('.photo-card').forEach(c=>c.addEventListener('click',()=>openGallery(c)));
+document.getElementById('lbClose').addEventListener('click',closeLB);
+document.getElementById('lbPrev').addEventListener('click',()=>showImage((galleryIndex-1+galleryImages.length)%galleryImages.length));
+document.getElementById('lbNext').addEventListener('click',()=>showImage((galleryIndex+1)%galleryImages.length));
+lb.addEventListener('click',e=>{if(e.target===lb||e.target===document.getElementById('lbBig'))closeLB()});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')closeLB();
+  if(e.key==='ArrowLeft')showImage((galleryIndex-1+galleryImages.length)%galleryImages.length);
+  if(e.key==='ArrowRight')showImage((galleryIndex+1)%galleryImages.length);
+});
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';setTimeout(()=>lbMainImg.src='',400)}
+
+/* Testimonials */
+let cur=0;
+const slides=document.querySelectorAll('.testimonial-slide');
+const dots=document.querySelectorAll('.dot');
+function goTo(i){slides[cur].classList.remove('active');dots[cur].classList.remove('active');cur=i;slides[cur].classList.add('active');dots[cur].classList.add('active')}
+dots.forEach(d=>d.addEventListener('click',()=>goTo(+d.dataset.index)));
+setInterval(()=>goTo((cur+1)%slides.length),5200);
+
+/* Form handled by formsubmit.co — messages go to rayman.raboni09@gmail.com */
+</script>
+</body>
+</html>
